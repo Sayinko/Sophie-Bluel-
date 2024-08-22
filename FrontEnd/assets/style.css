@@ -49,7 +49,6 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
@@ -59,10 +58,14 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 184px;
 }
-section {
-	margin: 50px 0
+
+main {
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
 }
 
 h1 {
@@ -86,25 +89,36 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
+	margin-top: 7px;
 }
 
 h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
+}
+
+h3 {
+	font-size: 26px;
+	padding-top: 10px;
 }
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
+	font-size: 16px;
+	gap: 20px;
 
 }
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 	text-decoration: none;
+}
+
+nav img {
+	width: 20px;
 }
 
 a {
@@ -118,35 +132,77 @@ li:hover {
 #introduction {
 	display: flex;
 	align-items: center;
+	margin: 75px 19%;
 }
 #introduction figure {
-	flex: 1
+	flex: 1;
+	display: flex;
+    justify-content: flex-end;
 }
 #introduction img {
 	display: block;
-	margin: auto;
-	width: 80%;
+	width: 100%;
 }
 
 #introduction article {
 	flex: 1
 }
 #introduction h2 {
-	margin-bottom: 1em;
+	margin-bottom: 0.7em;
+	width: 85%;
+    margin-left: 65px;
 }
 
 #introduction p {
-	margin-bottom: 0.5em;
+	margin-bottom: 1em;
+	width: 88%;
+    margin-left: 65px;
 }
+
+#portfolio {
+	margin: 47px 19%;
+}
+
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1.5em;
+}
+
+.container-admin {
+	display: flex;
+    background-color: black;
+    width: 100%;
+}
+.admin-mode {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	background-color: black;
+	width: 100%;
+	height: 59px;
+}
+
+.edit-mode {
+	display: none;
+	color: white;
+    margin-right: 10px;
+}
+
+.edit-projet {
+	display: none;
+	color: black;
+    margin-left: 30px;
+    margin-right: 10px;
+}
+
+.logout {
+	display: none;
 }
 
 .filters {
 	display: flex;
     justify-content: center;
-	margin-bottom: 30px;
+	margin: 45px 0;
 }
 
 
@@ -167,6 +223,88 @@ li:hover {
 	background-color: #1D6154;
 	color: white;
 }
+
+.title-modifier {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.title-modifier a {
+	display: none;
+}
+
+.modale {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.3);
+	height: 100%;
+	width: 100%;
+}
+
+.box-modale {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	width: 30%;
+	background-color: white;
+	padding: 50px;
+	border-radius: 10px;
+}
+
+.close-modale {
+	position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 20px;
+}
+
+.gallery-modale {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	column-gap: 10px;
+    row-gap: 26px;
+    padding: 48px;
+	border-bottom: solid 1px #B3B3;
+}
+.gallery-modale img {
+	width: 100%;
+}
+
+.gallery-modale article {
+	position: relative;
+}
+
+.bin {
+	color: white;
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    background: black;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+.btn-modale {
+	font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    margin: 3em auto 0;
+    width: 237px;
+    text-align: center;
+    border-radius: 60px;
+    padding: 8px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -180,7 +318,7 @@ li:hover {
 
 }
 #contact {
-	width: 35%;
+	width: 25%;
 margin: auto;
 }
 #contact > * {
@@ -223,14 +361,10 @@ input[type="submit"]{
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 3em auto ;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
-}
-
-footer {
-	background: #FFFFFF;
 }
 
 footer nav ul {
