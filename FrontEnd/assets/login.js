@@ -17,23 +17,20 @@ form.addEventListener("submit", async (event) => {
     });
 
     if (!reponse.ok) {
-      alert(`L'email "${email}" ou le mot de passe est incorrect`);
+      connexionError.classList.add("error-message");
+      connexionError.innerHTML = `L'email ${email} ou le mot de passe est incorrect`;
+      // SUPPRIMER L'ERREUR AU BOUT DE 7 SECONDES
+      setTimeout(() => {
+        connexionError.innerHTML = "";
+        connexionError.classList.remove("error-message");
+      }, 7000);
     } else {
       const login = await reponse.json();
       const token = login.token;
-      console.log(token);
-      const cle = login.userId;
 
       localStorage.setItem("token", token);
-      localStorage.setItem("cle", cle);
 
-      if (email === "sophie.bluel@test.tld" && password === "S0phie") {
-        window.localStorage.setItem("admin", "true");
-      } else {
-        window.localStorage.setItem("admin", "false");
-      }
-
-      window.location.href = "http://127.0.0.1:5500/FrontEnd/index.html";
+      window.location.href = "index.html";
     }
   } catch (error) {
     console.error("il ya une erreur : " + error);

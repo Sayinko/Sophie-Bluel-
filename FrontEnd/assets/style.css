@@ -305,6 +305,28 @@ li:hover {
     padding: 8px;
 }
 
+.ajout-modale {
+	display: flex;
+    flex-direction: column;
+    gap: 30px;
+	align-items: center;
+	width: 85%;
+}
+
+.input-modale {
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
+	width: 100%;
+}
+
+.select-option, #titre {
+	padding: 15px;
+    border: none;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -372,6 +394,12 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em;
 	height: 60px;
+}
+
+.error-message {
+	color: red;
+	font-size: 14px;
+	margin-top: 10px;
 }
 
 

@@ -4,20 +4,20 @@ let categorie = [];
 // Récupération des catégories de l'api
 async function categorieApi() {
   const reponse = await fetch("http://localhost:5678/api/categories");
-  categories = await reponse.json();
+  return await reponse.json();
 }
 
 // Récupération des travaux de l'api
 async function travauxApi() {
   const reponse = await fetch("http://localhost:5678/api/works");
-  travaux = await reponse.json();
+  return await reponse.json();
 }
 
 const gallery = document.querySelector(".gallery");
 
 // Génération de la gallerie d'images
 function generationGallery(travaux) {
-  for (let i = 0; i < travaux.length; i++) {
+  for (const el of travaux) {
     const ficheGallery = document.createElement("article");
     const imgGallery = document.createElement("img");
     const legendeImg = document.createElement("figcaption");
@@ -26,8 +26,9 @@ function generationGallery(travaux) {
     ficheGallery.appendChild(imgGallery);
     ficheGallery.appendChild(legendeImg);
 
-    imgGallery.src = travaux[i].imageUrl;
-    legendeImg.innerText = travaux[i].title;
+    ficheGallery.dataset.id = el.id;
+    imgGallery.src = el.imageUrl;
+    legendeImg.innerText = el.title;
   }
 }
 
@@ -106,7 +107,7 @@ btnHotelRestaurant.addEventListener("click", () => {
   generationGallery(travauxFiltrees);
 });
 
-function gererAdmin() {
+function gererAdmin(travaux) {
   const token = window.localStorage.getItem("token");
   const adminMode = document.querySelector(".admin-mode");
   const editMode = document.querySelector(".edit-mode");
@@ -134,13 +135,14 @@ function gererAdmin() {
     // bouton déconnection administrateur
     logout.addEventListener("click", () => {
       window.localStorage.removeItem("token");
-      window.location.href = "http://127.0.0.1:5500/FrontEnd/login.html";
+      window.location.href = "login.html";
     });
 
     // bouton ouverture de la modale
     modifier.addEventListener("click", (event) => {
       event.preventDefault();
       modale.style.display = "flex";
+      modale.setAttribute("aria-hidden", "false");
       galleryModale.innerHTML = "";
       generationModale(travaux);
       gererSuppressionImg(travaux);
@@ -150,6 +152,7 @@ function gererAdmin() {
     closeModale.addEventListener("click", (event) => {
       event.preventDefault();
       modale.style.display = "none";
+      restaurerModale();
     });
   } else {
     adminMode.style.display = "none";
@@ -160,38 +163,101 @@ function gererAdmin() {
 // création des fiches pour la modale
 function generationModale(travaux) {
   galleryModale = document.querySelector(".gallery-modale");
-  for (let i = 0; i < travaux.length; i++) {
+
+  for (const el of travaux) {
     const article = document.createElement("article");
     const img = document.createElement("img");
     const logoPoubelle = document.createElement("i");
-    logoPoubelle.classList.add("bin");
+    logoPoubelle.classList.add("bin", "fa-solid", "fa-trash-can");
 
-    logoPoubelle.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
-    img.src = travaux[i].imageUrl;
+    // AJOUTER L'ID SUR LE LOGO POUBELLE
+
+    logoPoubelle.dataset.id = el.id;
+    article.dataset.id = el.id;
+    img.src = el.imageUrl;
 
     galleryModale.appendChild(article);
     article.appendChild(img);
     article.appendChild(logoPoubelle);
   }
+  galleryModale.style.display = "flex";
+  galleryModale.style.width = "100%";
+  galleryModale.style.justifyContent = "center";
+
+  const btnAjoutPhotoModale = document.querySelector(".btn-modale");
+  const boxModale = document.querySelector(".box-modale");
+
+  const initialisationModale = boxModale.innerHTML;
+
+  btnAjoutPhotoModale.addEventListener("click", (e) => {
+    e.preventDefault();
+    galleryModale.innerHTML = "";
+    galleryModale.innerHTML = `              <form class="ajout-modale">
+    <input type="file" id="image" name="image" />
+    <div class="input-modale">
+    <label for="titre">Titre</label>
+    <input type="text" id="titre" name="Titre" />
+    </div>
+    <div class="input-modale">
+    <label for="categorie">Catégorie</label>
+    <select class="select-option" id="categorie">
+    </div>
+    </select>
+  </form>`;
+
+    document.querySelector(".box-modale h3").innerText = "Ajout photo";
+    document.querySelector(".btn-modale").innerText = "Valider";
+
+    const selectOption = document.querySelector(".select-option");
+
+    for (const el of categorie) {
+      const nameCategorie = el.name;
+      const option = document.createElement("option");
+      option.innerText = nameCategorie;
+      option.setAttribute("data-id", `${el.id}`);
+      console.log(option);
+      selectOption.appendChild(option);
+    }
+    const btnSubmit = btnAjoutPhotoModale.cloneNode(true);
+    btnSubmit.innerText = "Valider";
+    btnSubmit.classList.add("btn-submit");
+    document.querySelector(".ajout-modale").appendChild(btnSubmit);
+    btnAjoutPhotoModale.style.display = "none";
+  });
 }
 
-function gererSuppressionImg() {
+async function gererSuppressionImg() {
   const bin = document.querySelectorAll(".bin");
 
   bin.forEach((bin) => {
-    // COMMENT RELIER LA POUBELLE A LIMAGE SUR LAQUELLE ELLE SE TROUVE POUR POUVOIR LES SUPPRIMER ?
-    bin.addEventListener("click", (event) => {
-      event.preventDefault();
+    bin.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const id = e.target.dataset.id;
+      console.log(`id: ${id}`);
+
+      const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const reponseJson = await reponse.json();
+      if (reponseJson.message === "Work deleted") {
+        const article = document.querySelectorAll(`[data-id="${id}"]`);
+        article.forEach((article) => {
+          article.remove();
+        });
+      }
     });
   });
 }
 
-gererAdmin();
-
 async function init() {
-  await categorieApi();
-  await travauxApi();
+  categorie = await categorieApi();
+  travaux = await travauxApi();
   generationGallery(travaux);
+  gererAdmin(travaux);
 }
 
 init();
