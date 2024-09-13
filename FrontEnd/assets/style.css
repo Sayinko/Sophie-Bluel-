@@ -247,7 +247,7 @@ li:hover {
 	width: 100%;
 }
 
-.box-modale {
+.box-modale{
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -259,6 +259,30 @@ li:hover {
 	border-radius: 10px;
 }
 
+.ajout-modale {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	width: 30%;
+	background-color: white;
+	padding: 50px;
+	border-radius: 10px;
+}
+
+.ajout-photo {
+    display: flex;
+    flex-direction: column;
+	width: 85%;
+}
+
+.fa-arrow-left {
+	position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 20px;
+}
 .close-modale {
 	position: absolute;
     top: 30px;
@@ -271,7 +295,10 @@ li:hover {
 	grid-template-columns: repeat(5, 1fr);
 	column-gap: 10px;
     row-gap: 26px;
-    padding: 48px;
+    display: flex;
+    width: 90%;
+    justify-content: center;
+    padding: 45px 0;
 	border-bottom: solid 1px #B3B3;
 }
 .gallery-modale img {
@@ -298,19 +325,61 @@ li:hover {
     font-weight: 700;
     color: white;
     background-color: #1D6154;
+	border: 2px solid #1D6154;
     margin: 3em auto 0;
     width: 237px;
     text-align: center;
     border-radius: 60px;
     padding: 8px;
 }
+.btn-submit {
+	font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    margin: 2.5em auto 0;
+    width: 237px;
+    text-align: center;
+    border-radius: 60px;
+    padding: 8px;
+}
 
-.ajout-modale {
-	display: flex;
+.btn-ajout-photo {
+	z-index: 0;
+    position: relative;
+	background-color: #CBD6DC;
+    border: #CBD6DC;
+    border-radius: 50px;
+    color: #306685;
+	font-size: 14px;
+	padding: 10px 40px;
+}
+
+.container-input-fichier {
+	background: #E8F1F6;
+    display: flex;
+    padding: 20px;
+    margin-top: 30px;
+	border-radius: 3px;
     flex-direction: column;
-    gap: 30px;
-	align-items: center;
-	width: 85%;
+    align-items: center;
+	gap: 11px;
+}
+
+.container-input-fichier span {
+	color: #444444;
+	font-size: 10px;
+}
+
+.container-input-fichier i {
+font-size: 70px;
+    color: #CBD6DC;
+    filter: brightness(0.9);
+}
+
+.input-fichier {
+	z-index: 1;
+    position: absolute;
+    opacity: 0;
 }
 
 .input-modale {
@@ -318,12 +387,18 @@ li:hover {
     flex-direction: column;
     gap: 10px;
 	width: 100%;
+	margin-top: 30px;
+}
+
+.border-bottom {
+	border-bottom: solid 1px #B3B3;
+    padding-bottom: 45px;
 }
 
 .select-option, #titre {
 	padding: 15px;
     border: none;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
 }
 
 
