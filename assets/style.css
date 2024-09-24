@@ -575,4 +575,8 @@ footer nav ul {
   color: red;
   font-size: 14px;
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-top: 0;
 }
