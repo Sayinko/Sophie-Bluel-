@@ -20,18 +20,18 @@
     <script src="index.js" defer></script>
   </head>
 
-  <p class="admin-mode">
-    <i class="fa-regular fa-pen-to-square edit-mode"></i>Mode édition
-  </p>
   <body>
+    <p class="admin-mode">
+      <i class="fa-regular fa-pen-to-square edit-mode"></i>Mode édition
+    </p>
     <header>
       <h1>Sophie Bluel <span>ARCHITECTE D'INTERIEUR</span></h1>
       <nav>
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <a href="login.html" class="login"><li>login</li></a>
-          <a href="login.html" class="logout"><li>logout</li></a>
+          <li class="login"><a href="login.html">login</a></li>
+          <li class="logout"><a href="login.html">logout</a></li>
           <li>
             <img
               src="./assets/icons/instagram.png"
@@ -74,13 +74,7 @@
           >
         </div>
 
-        <aside
-          id="modale"
-          class="modale"
-          aria-hidden="true"
-          aria-modal="false"
-          role="dialog"
-        ></aside>
+        <aside id="modale" class="modale" aria-hidden="true"></aside>
         <div class="filters"></div>
         <div class="gallery"></div>
       </section>
@@ -100,7 +94,6 @@
     </main>
 
     <footer>
-      <!-- HTML AVEC MARGIN 0 EMPECHE LE FOOTER DE PRENDRE TOUT L4ESPACE EN BAS DE PAGE-->
       <nav>
         <ul>
           <li>Mentions Légales</li>
