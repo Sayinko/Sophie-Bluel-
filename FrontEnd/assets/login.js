@@ -19,7 +19,7 @@ form.addEventListener("submit", async (event) => {
     if (!reponse.ok) {
       connexionError.classList.add("error-message");
       connexionError.innerHTML = `L'email ${email} ou le mot de passe est incorrect`;
-      // SUPPRIMER L'ERREUR AU BOUT DE 7 SECONDES
+
       setTimeout(() => {
         connexionError.innerHTML = "";
         connexionError.classList.remove("error-message");
