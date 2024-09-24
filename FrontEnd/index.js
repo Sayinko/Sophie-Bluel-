@@ -264,7 +264,7 @@ function createModale(travaux) {
       const option = document.createElement("option");
       option.innerText = nameCategorie;
       option.setAttribute("data-id", `${el.id}`);
-      console.log(option);
+      // console.log(option);
       selectOption.appendChild(option);
     }
 
@@ -365,12 +365,6 @@ function verificationValeursEnvoieFormulaire() {
     containerSpan.style.display = "flex";
     containerSpan.style.justifyContent = "center";
     span.style.display = "flex";
-    span.style.backgroundColor = "red";
-    span.style.color = "white";
-    span.style.padding = "7px";
-    span.style.borderRadius = "5px";
-    span.style.marginTop = "10px";
-    span.style.fontSize = "11px";
     iconeWarning.style.marginRight = "5px";
   } else {
     document.getElementById("titre").style.border = "none";
@@ -387,12 +381,6 @@ function verificationValeursEnvoieFormulaire() {
     containerSpan.style.display = "flex";
     containerSpan.style.justifyContent = "center";
     span.style.display = "flex";
-    span.style.backgroundColor = "red";
-    span.style.color = "white";
-    span.style.padding = "7px";
-    span.style.borderRadius = "5px";
-    span.style.marginTop = "10px";
-    span.style.fontSize = "11px";
     iconeWarning.style.marginRight = "5px";
   } else {
     document.querySelector(".container-input-fichier").style.border = "none";
@@ -406,10 +394,10 @@ async function addListenerToAjoutPhoto() {
   ajoutPhoto.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    console.log("la page n'a pas été actualisée");
+    // console.log("la page n'a pas été actualisée");
 
-    token = localStorage.getItem("token");
-    console.log(token, "token récupéré");
+    let token = localStorage.getItem("token");
+    // console.log(token, "token récupéré");
 
     const formData = new FormData();
     const titre = document.querySelector("#titre").value;
@@ -418,7 +406,7 @@ async function addListenerToAjoutPhoto() {
     const imageInput = document.querySelector("#image");
 
     const image = imageInput.files[0];
-    console.log(image);
+    // console.log(image);
 
     if (token) {
       formData.append("title", titre);
@@ -439,21 +427,34 @@ async function addListenerToAjoutPhoto() {
         const reponseJson = await reponse.json();
         console.log("réponse du serveur : ", reponseJson);
 
-        if (reponseJson.message === "Work created") {
-          console.log("nouvelle image ajoutée avec succès");
+        if (reponse.status === 201) {
+          // console.log("nouvelle image ajoutée avec succès");
+          // console.log("nouvelle image ajoutée avec succès");
           // Création d'un nouvel article avec l'image et la description
-          const article = document.createElement("article");
-          const img = document.createElement("img");
-          const description = document.createElement("figcaption");
+          const newElement = `<article data-id="${reponseJson.id}">
+                                  <img src="${reponseJson.imageUrl}">
+                                  <figcaption>${reponseJson.title}</figcaption>
+                              </article>`;
 
-          description.dataset.id = reponseJson.id;
-          article.dataset.id = reponseJson.id;
-          img.src = reponseJson.image;
+          const gallery = document.querySelector(".gallery");
+          gallery.insertAdjacentHTML("beforeend", newElement);
 
+          // Injecter dans la modale
           const galleryModale = document.querySelector(".gallery-modale");
-          galleryModale.appendChild(article);
-          article.appendChild(img);
-          article.appendChild(description);
+          const newModaleElement = `<article data-id="${reponseJson.id}">
+                                      <img src="${reponseJson.imageUrl}">
+                                      <i class="bin fa-solid fa-trash-can" data-id="${reponseJson.id}"></i>
+                                    </article>`;
+          galleryModale.insertAdjacentHTML("beforeend", newModaleElement);
+
+          // Fermeture de la modale
+          const contentModale = document.querySelector(".showgallerymodal");
+          contentModale.style.display = "flex";
+          const ajoutmodale = document.querySelector(".ajout-modale");
+          ajoutmodale.style.display = "none";
+
+          // Gestion de la suppression
+          gererSuppressionImg();
         } else {
           console.error(
             "Erreur lors de la création :",
@@ -490,9 +491,7 @@ async function gererSuppressionImg() {
             Authorization: `Bearer ${token}`,
           },
         });
-        const reponseJson = await reponse.json();
-        console.log(reponseJson.message);
-        if (reponseJson.message === "Work deleted") {
+        if (reponse.status === 204) {
           const article = document.querySelectorAll(`[data-id="${id}"]`);
           article.forEach((article) => {
             article.remove();

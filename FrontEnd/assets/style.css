@@ -482,6 +482,16 @@ li:hover {
   margin-top: 30px;
 }
 
+.message-erreur span {
+	display: none;
+    background-color: red;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 11px;
+}
+
 .border-bottom {
   border-bottom: solid 1px #b3b3;
   padding-bottom: 45px;
