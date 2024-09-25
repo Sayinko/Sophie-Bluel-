@@ -1,5 +1,4 @@
 const form = document.querySelector(".form");
-let user = true;
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -36,21 +35,3 @@ form.addEventListener("submit", async (event) => {
     console.error("il ya une erreur : " + error);
   }
 });
-
-/*const header = document.querySelector("header");
-const divEtatConnexion = document.createElement("div");
-const etatConnnexion = document.createElement("p");
-const logoEditionMode = `<i class="fa-regular fa-pen-to-square"></i>`;
-
-divEtatConnexion.classList.add("container-etat-connexion");
-etatConnnexion.classList.add("etat-connexion");
-logoEditionMode.classList.add("logo-connexion");
-
-header.appendChild(divEtatConnexion);
-divEtatConnexion.appendChild(etatConnnexion);
-divEtatConnexion.appendChild(logoEditionMode);
-
-function loginAdmin() {
-  if (user === true) {
-  }
-}*/

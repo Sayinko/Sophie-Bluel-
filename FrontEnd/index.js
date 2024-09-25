@@ -428,6 +428,7 @@ async function addListenerToAjoutPhoto() {
         console.log("réponse du serveur : ", reponseJson);
 
         if (reponse.status === 201) {
+          travaux.push(reponseJson); // Ajout de l'image dans la variable travaux
           // console.log("nouvelle image ajoutée avec succès");
           // console.log("nouvelle image ajoutée avec succès");
           // Création d'un nouvel article avec l'image et la description
@@ -478,7 +479,7 @@ async function gererSuppressionImg() {
   bin.forEach((bin) => {
     bin.addEventListener("click", async (e) => {
       e.preventDefault();
-      const id = e.target.dataset.id;
+      const id = parseInt(e.target.dataset.id);
 
       const token = localStorage.getItem("token");
       console.log(token);
@@ -492,6 +493,10 @@ async function gererSuppressionImg() {
           },
         });
         if (reponse.status === 204) {
+          // Chercher dans la variable travaux et supprimer l'élément (conversion en int de l'id (ligne 481))
+          const index = travaux.findIndex((travaux) => travaux.id === id);
+          travaux.splice(index, 1);
+
           const article = document.querySelectorAll(`[data-id="${id}"]`);
           article.forEach((article) => {
             article.remove();
