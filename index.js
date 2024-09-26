@@ -27,85 +27,50 @@ function generationGallery(travaux) {
     ficheGallery.appendChild(legendeImg);
 
     ficheGallery.dataset.id = el.id;
+    ficheGallery.dataset.categoryId = el.categoryId;
     imgGallery.src = el.imageUrl;
     legendeImg.innerText = el.title;
   }
 }
 
-const filters = document.querySelector(".filters");
-const btnTous = document.createElement("button");
-const btnObjet = document.createElement("button");
-const btnAppartement = document.createElement("button");
-const btnHotelRestaurant = document.createElement("button");
+// Génération des filtres
+function generationFiltres(categorie) {
+  const filters = document.querySelector(".filters");
+  filters.innerHTML = "";
 
-btnTous.innerText = "Tous";
-btnObjet.innerHTML = "Objets";
-btnAppartement.innerHTML = "Appartements";
-btnHotelRestaurant.innerHTML = "Hotels & restaurants";
+  const btnTous = document.createElement("button");
+  btnTous.innerText = "Tous";
+  btnTous.classList.add("button_filters");
+  btnTous.addEventListener("click", () => filterTravaux(null));
+  filters.appendChild(btnTous);
 
-btnTous.classList.add("button_filters");
-btnObjet.classList.add("button_filters");
-btnAppartement.classList.add("button_filters");
-btnHotelRestaurant.classList.add("button_filters");
+  categorie.forEach((category) => {
+    const btn = document.createElement("button");
+    btn.innerText = category.name;
+    btn.classList.add("button_filters");
+    btn.addEventListener("click", () => filterTravaux(category.id));
+    filters.appendChild(btn);
+  });
+}
 
-filters.appendChild(btnTous);
-filters.appendChild(btnObjet);
-filters.appendChild(btnAppartement);
-filters.appendChild(btnHotelRestaurant);
+// Filtrer les travaux selon la catégorie
+function filterTravaux(categoryId) {
+  const buttonsFilters = document.querySelectorAll(".button_filters");
+  buttonsFilters.forEach((button) => button.classList.remove("click_color"));
 
-// Filtrer par tous
-btnTous.addEventListener("click", () => {
-  const travauxFiltrees = travaux.filter(
-    (travail) => travail.categoryId === 1 || 2 || 3
-  );
+  travaux.forEach((travail) => {
+    const elements = document.querySelectorAll(
+      `[data-category-id='${travail.categoryId}']`
+    );
 
-  btnHotelRestaurant.classList.remove("click_color");
-  btnObjet.classList.remove("click_color");
-  btnAppartement.classList.remove("click_color");
-  btnTous.classList.add("click_color");
-
-  gallery.innerHTML = "";
-  generationGallery(travauxFiltrees);
-});
-
-// Filtrer objets
-btnObjet.addEventListener("click", () => {
-  const travauxFiltrees = travaux.filter((travail) => travail.categoryId === 1);
-
-  btnHotelRestaurant.classList.remove("click_color");
-  btnTous.classList.remove("click_color");
-  btnAppartement.classList.remove("click_color");
-  btnObjet.classList.add("click_color");
-
-  gallery.innerHTML = "";
-  generationGallery(travauxFiltrees);
-});
-
-// Filtrer par appartements
-btnAppartement.addEventListener("click", () => {
-  const travauxFiltrees = travaux.filter((travail) => travail.categoryId === 2);
-
-  btnHotelRestaurant.classList.remove("click_color");
-  btnTous.classList.remove("click_color");
-  btnObjet.classList.remove("click_color");
-  btnAppartement.classList.add("click_color");
-
-  gallery.innerHTML = "";
-  generationGallery(travauxFiltrees);
-});
-
-// Filtrer par hotels et restaurants
-btnHotelRestaurant.addEventListener("click", () => {
-  const travauxFiltrees = travaux.filter((travail) => travail.categoryId === 3);
-
-  btnTous.classList.remove("click_color");
-  btnAppartement.classList.remove("click_color");
-  btnObjet.classList.remove("click_color");
-  btnHotelRestaurant.classList.add("click_color");
-
-  gallery.innerHTML = "";
-  generationGallery(travauxFiltrees);
-});
+    elements.forEach((element) => {
+      element.style.display =
+        categoryId === null || travail.categoryId === categoryId
+          ? "block"
+          : "none";
+    });
+  });
+}
 
 function gererAdmin(travaux) {
   const token = window.localStorage.getItem("token");
@@ -117,6 +82,7 @@ function gererAdmin(travaux) {
   const titleModifier = document.querySelector(".title-modifier");
   const modifier = document.querySelector(".title-modifier a");
   const modale = document.querySelector(".modale");
+  const filters = document.querySelector(".filters");
   const closeModale = document.querySelectorAll(".close-modale");
 
   // Accès pour l'administrateur
@@ -482,7 +448,6 @@ async function gererSuppressionImg() {
       const id = parseInt(e.target.dataset.id);
 
       const token = localStorage.getItem("token");
-      console.log(token);
 
       try {
         const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
@@ -510,12 +475,13 @@ async function gererSuppressionImg() {
     });
   });
 }
-// récupérer le token dans le local storage
 
 async function init() {
   categorie = await categorieApi();
   travaux = await travauxApi();
+  console.log(travaux);
   generationGallery(travaux);
+  generationFiltres(categorie);
   gererAdmin(travaux);
 }
 
