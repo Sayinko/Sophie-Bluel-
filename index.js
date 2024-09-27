@@ -41,22 +41,25 @@ function generationFiltres(categorie) {
   const btnTous = document.createElement("button");
   btnTous.innerText = "Tous";
   btnTous.classList.add("button_filters");
-  btnTous.addEventListener("click", () => filterTravaux(null));
+  btnTous.addEventListener("click", () => filterTravaux(null, btnTous));
   filters.appendChild(btnTous);
 
   categorie.forEach((category) => {
     const btn = document.createElement("button");
     btn.innerText = category.name;
     btn.classList.add("button_filters");
-    btn.addEventListener("click", () => filterTravaux(category.id));
+    btn.addEventListener("click", () => filterTravaux(category.id, btn));
     filters.appendChild(btn);
   });
 }
 
 // Filtrer les travaux selon la catégorie
-function filterTravaux(categoryId) {
+function filterTravaux(categoryId, buttonSelected) {
   const buttonsFilters = document.querySelectorAll(".button_filters");
-  buttonsFilters.forEach((button) => button.classList.remove("click_color"));
+  buttonsFilters.forEach((button) => {
+    button.classList.remove("click_color");
+    buttonSelected.classList.add("click_color");
+  });
 
   travaux.forEach((travail) => {
     const elements = document.querySelectorAll(
