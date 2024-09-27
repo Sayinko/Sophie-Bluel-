@@ -56,11 +56,8 @@ function generationFiltres(categorie) {
 // Filtrer les travaux selon la catégorie
 function filterTravaux(categoryId, buttonSelected) {
   const buttonsFilters = document.querySelectorAll(".button_filters");
-  buttonsFilters.forEach((button) => {
-    button.classList.remove("click_color");
-    buttonSelected.classList.add("click_color");
-  });
-
+  buttonsFilters.forEach((button) => button.classList.remove("click_color"));
+  buttonSelected.classList.add("click_color");
   travaux.forEach((travail) => {
     const elements = document.querySelectorAll(
       `[data-category-id='${travail.categoryId}']`
